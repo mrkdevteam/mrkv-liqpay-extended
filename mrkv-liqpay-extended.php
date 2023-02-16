@@ -1,7 +1,7 @@
 <?php
 /*
  * Plugin Name: Morkva Liqpay Extended
- * Description: LiqPay Payment Gateway From Morkva
+ * Description: LiqPay Payment Gateway with callback by Morkva
  * Version: 0.0.1
  * Tested up to: 6.1
  * Requires at least: 5.2
