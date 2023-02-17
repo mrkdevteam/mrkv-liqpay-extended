@@ -347,11 +347,11 @@ class WC_Gateway_Morkva_Liqpay extends WC_Payment_Gateway
 
             # Get response data
             if(isset($_POST['data'])){
-                $data = $_POST['data'];
+                $data = sanitize_text_field($_POST['data']);
             }
             # Get response signature
             if(isset($_POST['signature'])){
-                $received_signature = $_POST['signature']; 
+                $received_signature = sanitize_text_field($_POST['signature']); 
             }
 
             # Parse JSON data
