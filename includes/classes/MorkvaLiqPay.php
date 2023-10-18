@@ -16,11 +16,21 @@
  */
 class MorkvaLiqPay
 {
-    /**
+     /**
      * @param string Constant of currency
      * 
      * */
     const CURRENCY_UAH = 'UAH';
+    /**
+     * @param string Constant of currency
+     * 
+     * */
+    const CURRENCY_USD = 'USD';
+    /**
+     * @param string Constant of currency
+     * 
+     * */
+    const CURRENCY_EUR = 'EUR';
 
     /**
      * @param string Main API Liqpay url
@@ -40,6 +50,8 @@ class MorkvaLiqPay
      * */
     protected $_supportedCurrencies = array(
         self::CURRENCY_UAH,
+        self::CURRENCY_USD,
+        self::CURRENCY_EUR
     );
 
     /**

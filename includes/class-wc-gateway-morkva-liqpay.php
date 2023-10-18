@@ -393,6 +393,9 @@ class WC_Gateway_Morkva_Liqpay extends WC_Payment_Gateway
 
             file_put_contents(__DIR__.'/log/debug.log', date('d-m-Y H:i:s') . PHP_EOL . print_r($status, 1), FILE_APPEND); 
             file_put_contents(__DIR__.'/log/debug.log', date('d-m-Y H:i:s') . PHP_EOL . ' order_id: ' .  print_r($order_id, 1), FILE_APPEND); 
+            file_put_contents(__DIR__.'/log/debug.log', date('d-m-Y H:i:s') . PHP_EOL . ' order_id: ' .  print_r($parsed_data, 1), FILE_APPEND); 
+
+
 
             # Check status response 
             if ($status == 'success' || ($status == 'sandbox')) 
@@ -405,6 +408,18 @@ class WC_Gateway_Morkva_Liqpay extends WC_Payment_Gateway
 
                 # Add to order note payment status
                 $order->add_order_note(__('Платіж LiqPay виконано успішно.<br/>Ідентифікатор платежу LiqPay:  ', 'mrkv-liqpay-extended') . $parsed_data->liqpay_order_id ); 
+
+                if(isset($parsed_data) && isset($parsed_data->amount_debit) && isset($order_id)){
+                    file_put_contents(__DIR__.'/log/debug.log', date('d-m-Y H:i:s') . PHP_EOL . 'testestestetse', FILE_APPEND);      
+                    file_put_contents(__DIR__.'/log/debug.log', date('d-m-Y H:i:s') . PHP_EOL . print_r($parsed_data->amount_debit , 1), FILE_APPEND);      
+                    file_put_contents(__DIR__.'/log/debug.log', date('d-m-Y H:i:s') . PHP_EOL . 'testestestetse', FILE_APPEND);                 
+
+                    // Save amount uah
+                    update_post_meta( $order_id, '_mrkv_liqpay_total_amount', $parsed_data->amount_debit );
+
+                    // Save the order.
+                    $order->save();
+                }
             } 
             else 
             {
