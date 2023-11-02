@@ -2,7 +2,7 @@
 /*
  * Plugin Name: Morkva Liqpay Extended
  * Description: LiqPay Payment Gateway with callback by Morkva
- * Version: 0.2.0
+ * Version: 0.3.0
  * Tested up to: 6.3
  * Requires at least: 5.2
  * Requires PHP: 7.1
@@ -19,6 +19,12 @@ if (! defined('ABSPATH'))
     # Exit if accessed directly
     exit;
 }
+
+add_action( 'before_woocommerce_init', function() {
+    if ( class_exists( \Automattic\WooCommerce\Utilities\FeaturesUtil::class ) ) {
+        \Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility( 'custom_order_tables', __FILE__, true );
+    }
+} );
 
 # Include liqpay to menu Wordpress
 require_once plugin_dir_path(__FILE__) . 'includes/class-morkva-liqpay-menu.php';
