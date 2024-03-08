@@ -161,6 +161,13 @@ class WC_Gateway_Morkva_Liqpay extends WC_Payment_Gateway
                 'description' => '',
                 'default' => 'no',
             ),
+            'test_enabled_admin' => array(
+                'title' => __('Тестовий режим для адміністратора', 'mrkv-liqpay-extended'),
+                'label' => __('Увімкнути', 'mrkv-liqpay-extended'),
+                'type' => 'checkbox',
+                'description' => '',
+                'default' => 'no',
+            ),
             'test_public_key' => array(
                 'title' => __('Тестовий API public_key', 'mrkv-liqpay-extended'),
                 'type' => 'text',
@@ -212,11 +219,6 @@ class WC_Gateway_Morkva_Liqpay extends WC_Payment_Gateway
             # Send email notification
             $this->pending_new_order_notification($order->get_id());
         } 
-        else 
-        {
-            # Payment complete
-            $order->payment_complete();
-        }
 
         # Remove cart data
         WC()->cart->empty_cart();
@@ -225,13 +227,18 @@ class WC_Gateway_Morkva_Liqpay extends WC_Payment_Gateway
         require_once(__DIR__ . '/classes/MorkvaLiqPay.php');
 
         # Check test mode
-        if($this->get_option('test_enabled') && $this->get_option('test_enabled') != 'no')
+        if($this->get_option( 'test_enabled' ) == 'yes')
+        {
+            # Use test keys
+            $morkva_liqPay = new MorkvaLiqPay($this->get_option('test_public_key'), $this->get_option('test_private_key'));
+        }
+        elseif($this->get_option( 'test_enabled_admin' ) == 'yes' && ( current_user_can('editor') || current_user_can('administrator') ))
         {
             # Use test keys
             $morkva_liqPay = new MorkvaLiqPay($this->get_option('test_public_key'), $this->get_option('test_private_key'));
         }
         else
-        {
+        {   
             # Use main keys
             $morkva_liqPay = new MorkvaLiqPay($this->get_option('public_key'), $this->get_option('private_key'));
         }
@@ -370,8 +377,17 @@ class WC_Gateway_Morkva_Liqpay extends WC_Payment_Gateway
 
             file_put_contents(__DIR__.'/log/debug.log', date('d-m-Y H:i:s') . PHP_EOL . ' Status: ' .  print_r($status, 1), FILE_APPEND); 
 
-            # Check test mode
-            if($this->get_option('test_enabled') && $this->get_option('test_enabled') != 'no')
+            if($this->get_option( 'test_enabled' ) == 'yes')
+            {
+                # Generate full signature by test data
+                $generated_signature = base64_encode(sha1($this->get_option('test_public_key') . $data . $this->get_option('test_private_key'), 1));
+
+                file_put_contents(__DIR__.'/log/debug.log', date('d-m-Y H:i:s') . PHP_EOL . ' received_public_key: ' .  print_r($received_public_key, 1), FILE_APPEND); 
+
+                # Check signature by test data
+                if ($this->get_option('test_public_key') != $received_public_key) wp_die('IPN Request Failure');
+            }
+            elseif($this->get_option( 'test_enabled_admin' ) == 'yes' && ( current_user_can('editor') || current_user_can('administrator') ))
             {
                 # Generate full signature by test data
                 $generated_signature = base64_encode(sha1($this->get_option('test_public_key') . $data . $this->get_option('test_private_key'), 1));
@@ -402,32 +418,99 @@ class WC_Gateway_Morkva_Liqpay extends WC_Payment_Gateway
             # Check status response 
             if ($status == 'success' || ($status == 'sandbox')) 
             {
-                # Update order status
-                $order->update_status('processing');
+                if(!$order->has_status('processing'))
+                {
+                    $message = '';
 
-                # Switch payment to complete
-                $order->payment_complete();
-
-                # Add to order note payment status
-                $order->add_order_note(__('Платіж LiqPay виконано успішно.<br/>Ідентифікатор платежу LiqPay:  ', 'mrkv-liqpay-extended') . $parsed_data->liqpay_order_id ); 
-
-                if(isset($parsed_data) && isset($parsed_data->amount_debit) && isset($order_id)){
-                    file_put_contents(__DIR__.'/log/debug.log', date('d-m-Y H:i:s') . PHP_EOL . 'testestestetse', FILE_APPEND);      
-                    file_put_contents(__DIR__.'/log/debug.log', date('d-m-Y H:i:s') . PHP_EOL . print_r($parsed_data->amount_debit , 1), FILE_APPEND);      
-                    file_put_contents(__DIR__.'/log/debug.log', date('d-m-Y H:i:s') . PHP_EOL . 'testestestetse', FILE_APPEND);                 
-
-                    if(class_exists( \Automattic\WooCommerce\Utilities\OrderUtil::class ) && OrderUtil::custom_orders_table_usage_is_enabled())
+                    if(isset($parsed_data) && isset($parsed_data->sender_card_mask2) && !$order->get_meta('_mrkv_liqpay_sender_card_mask2'))
                     {
-                        $order->update_meta_data( '_mrkv_liqpay_total_amount', $parsed_data->amount_debit );
+                        $order->update_meta_data( '_mrkv_liqpay_sender_card_mask2', $parsed_data->sender_card_mask2 );
+                        update_post_meta( $order_id, '_mrkv_liqpay_sender_card_mask2', $parsed_data->sender_card_mask2 );
+
+
+                        $message .= ' ' . __('sender_card_mask2:  ', 'mrkv-liqpay-extended') . $parsed_data->sender_card_mask2 . '<br>';
                     }
-                    else
+
+                    if(isset($parsed_data) && isset($parsed_data->sender_card_type) && !$order->get_meta('_mrkv_liqpay_sender_card_type'))
                     {
-                        // Save amount uah
-                        update_post_meta( $order_id, '_mrkv_liqpay_total_amount', $parsed_data->amount_debit );
+                        $order->update_meta_data( '_mrkv_liqpay_sender_card_type', $parsed_data->sender_card_type );
+                        update_post_meta( $order_id, '_mrkv_liqpay_sender_card_type', $parsed_data->sender_card_type );
+
+                        $message .= ' ' . __('sender_card_type:  ', 'mrkv-liqpay-extended') . $parsed_data->sender_card_type . '<br>';
+                    }
+
+                    if(isset($parsed_data) && isset($parsed_data->acq_id)  && !$order->get_meta('_mrkv_liqpay_acq_id'))
+                    {
+                        $order->update_meta_data( '_mrkv_liqpay_acq_id', $parsed_data->acq_id );
+                        update_post_meta( $order_id, '_mrkv_liqpay_acq_id', $parsed_data->acq_id );
+
+                        $message .= ' ' . __('acq_id:  ', 'mrkv-liqpay-extended') . $parsed_data->acq_id . '<br>';
+                    }
+
+                    if(isset($parsed_data) && isset($parsed_data->agent_commission) && !$order->get_meta('_mrkv_liqpay_agent_commission'))
+                    {
+                        $order->update_meta_data( '_mrkv_liqpay_agent_commission', $parsed_data->agent_commission );
+                        update_post_meta( $order_id, '_mrkv_liqpay_agent_commission', $parsed_data->agent_commission );
+
+                        $message .= ' ' . __('agent_commission:  ', 'mrkv-liqpay-extended') . $parsed_data->agent_commission . '<br>';
+                    }
+
+                    if(isset($parsed_data) && isset($parsed_data->liqpay_order_id) && !$order->get_meta('_mrkv_liqpay_liqpay_order_id'))
+                    {
+                        $order->update_meta_data( '_mrkv_liqpay_liqpay_order_id', $parsed_data->liqpay_order_id );
+                        update_post_meta( $order_id, '_mrkv_liqpay_liqpay_order_id', $parsed_data->liqpay_order_id );
+
+                        $message .= ' ' . __('liqpay_order_id:  ', 'mrkv-liqpay-extended') . $parsed_data->liqpay_order_id . '<br>';
+                    }
+
+                    if(isset($parsed_data) && isset($parsed_data->receiver_commission) && !$order->get_meta('_mrkv_liqpay_receiver_commission'))
+                    {
+                        $order->update_meta_data( '_mrkv_liqpay_receiver_commission', $parsed_data->receiver_commission );
+                        update_post_meta( $order_id, '_mrkv_liqpay_receiver_commission', $parsed_data->receiver_commission );
+
+                        $message .= ' ' . __('receiver_commission:  ', 'mrkv-liqpay-extended') . $parsed_data->receiver_commission . '<br>';
+                    }
+                    
+                    if(isset($parsed_data) && isset($parsed_data->commission_credit) && !$order->get_meta('_mrkv_liqpay_commission_credit'))
+                    {
+                        $order->update_meta_data( '_mrkv_liqpay_commission_credit', $parsed_data->commission_credit );
+                        update_post_meta( $order_id, '_mrkv_liqpay_commission_credit', $parsed_data->commission_credit );
+
+                        $message .= ' ' . __('commission_credit:  ', 'mrkv-liqpay-extended') . $parsed_data->commission_credit . '<br>';
                     }
 
                     // Save the order.
                     $order->save();
+
+                    # Update order status
+                    $order->update_status('processing');
+
+                    # Switch payment to complete
+                    $order->payment_complete();
+
+                    $order->save();
+
+                    # Add to order note payment status
+                    $order->add_order_note(__('Платіж LiqPay виконано успішно.<br/>Ідентифікатор платежу LiqPay:  ', 'mrkv-liqpay-extended') . $parsed_data->liqpay_order_id ); 
+
+                    if(isset($parsed_data) && isset($parsed_data->amount_debit) && isset($order_id)){
+                        file_put_contents(__DIR__.'/log/debug.log', date('d-m-Y H:i:s') . PHP_EOL . 'testestestetse', FILE_APPEND);      
+                        file_put_contents(__DIR__.'/log/debug.log', date('d-m-Y H:i:s') . PHP_EOL . print_r($parsed_data->amount_debit , 1), FILE_APPEND);      
+                        file_put_contents(__DIR__.'/log/debug.log', date('d-m-Y H:i:s') . PHP_EOL . 'testestestetse', FILE_APPEND);                 
+
+                        if(class_exists( \Automattic\WooCommerce\Utilities\OrderUtil::class ) && OrderUtil::custom_orders_table_usage_is_enabled())
+                        {
+                            $order->update_meta_data( '_mrkv_liqpay_total_amount', $parsed_data->amount_debit );
+                        }
+                        else
+                        {
+                            // Save amount uah
+                            update_post_meta( $order_id, '_mrkv_liqpay_total_amount', $parsed_data->amount_debit );
+                        }
+
+                        // Save the order.
+                        $order->save();
+                    }
                 }
             } 
             else 
