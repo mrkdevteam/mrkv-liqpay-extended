@@ -227,12 +227,12 @@ class WC_Gateway_Morkva_Liqpay extends WC_Payment_Gateway
         require_once(__DIR__ . '/classes/MorkvaLiqPay.php');
 
         # Check test mode
-        if($this->get_option( 'test_enabled' ) == 'yes')
+        if($this->get_option( 'test_enabled_admin' ) == 'yes' && ( current_user_can('editor') || current_user_can('administrator') ))
         {
             # Use test keys
             $morkva_liqPay = new MorkvaLiqPay($this->get_option('test_public_key'), $this->get_option('test_private_key'));
         }
-        elseif($this->get_option( 'test_enabled_admin' ) == 'yes' && ( current_user_can('editor') || current_user_can('administrator') ))
+        elseif($this->get_option( 'test_enabled' ) == 'yes'  && $this->get_option( 'test_enabled_admin' ) != 'yes')
         {
             # Use test keys
             $morkva_liqPay = new MorkvaLiqPay($this->get_option('test_public_key'), $this->get_option('test_private_key'));
@@ -377,7 +377,7 @@ class WC_Gateway_Morkva_Liqpay extends WC_Payment_Gateway
 
             file_put_contents(__DIR__.'/log/debug.log', date('d-m-Y H:i:s') . PHP_EOL . ' Status: ' .  print_r($status, 1), FILE_APPEND); 
 
-            if($this->get_option( 'test_enabled' ) == 'yes')
+            if($this->get_option( 'test_enabled_admin' ) == 'yes' && ( current_user_can('editor') || current_user_can('administrator') ))
             {
                 # Generate full signature by test data
                 $generated_signature = base64_encode(sha1($this->get_option('test_public_key') . $data . $this->get_option('test_private_key'), 1));
@@ -387,7 +387,7 @@ class WC_Gateway_Morkva_Liqpay extends WC_Payment_Gateway
                 # Check signature by test data
                 if ($this->get_option('test_public_key') != $received_public_key) wp_die('IPN Request Failure');
             }
-            elseif($this->get_option( 'test_enabled_admin' ) == 'yes' && ( current_user_can('editor') || current_user_can('administrator') ))
+            elseif($this->get_option( 'test_enabled' ) == 'yes'  && $this->get_option( 'test_enabled_admin' ) != 'yes')
             {
                 # Generate full signature by test data
                 $generated_signature = base64_encode(sha1($this->get_option('test_public_key') . $data . $this->get_option('test_private_key'), 1));
