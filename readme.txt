@@ -3,7 +3,7 @@ Contributors: bandido
 Plugin Name: Morkva Liqpay Extended
 Tags: LiqPay, Ликпей, Лікпей
 Tested up to: 6.3
-Stable tag: 0.4.1
+Stable tag: 0.4.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -30,6 +30,9 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 
 Потрібна підтримка чи додатковий функціонал? support@morkva.co.ua
+
+= 0.4.2 =
+* [hotfix] виправили помилку callback
 
 = 0.4.1 =
 * [hotfix] виправили тестовий режим

@@ -377,35 +377,6 @@ class WC_Gateway_Morkva_Liqpay extends WC_Payment_Gateway
 
             file_put_contents(__DIR__.'/log/debug.log', date('d-m-Y H:i:s') . PHP_EOL . ' Status: ' .  print_r($status, 1), FILE_APPEND); 
 
-            if($this->get_option( 'test_enabled_admin' ) == 'yes' && ( current_user_can('editor') || current_user_can('administrator') ))
-            {
-                # Generate full signature by test data
-                $generated_signature = base64_encode(sha1($this->get_option('test_public_key') . $data . $this->get_option('test_private_key'), 1));
-
-                file_put_contents(__DIR__.'/log/debug.log', date('d-m-Y H:i:s') . PHP_EOL . ' received_public_key: ' .  print_r($received_public_key, 1), FILE_APPEND); 
-
-                # Check signature by test data
-                if ($this->get_option('test_public_key') != $received_public_key) wp_die('IPN Request Failure');
-            }
-            elseif($this->get_option( 'test_enabled' ) == 'yes'  && $this->get_option( 'test_enabled_admin' ) != 'yes')
-            {
-                # Generate full signature by test data
-                $generated_signature = base64_encode(sha1($this->get_option('test_public_key') . $data . $this->get_option('test_private_key'), 1));
-
-                file_put_contents(__DIR__.'/log/debug.log', date('d-m-Y H:i:s') . PHP_EOL . ' received_public_key: ' .  print_r($received_public_key, 1), FILE_APPEND); 
-
-                # Check signature by test data
-                if ($this->get_option('test_public_key') != $received_public_key) wp_die('IPN Request Failure');
-            }
-            else
-            {
-                # Generate full signature by main data
-                $generated_signature = base64_encode(sha1($this->get_option('private_key') . $data . $this->get_option('private_key'), 1));
-
-                # Check signature by main data
-                if ($this->get_option('public_key') != $received_public_key) wp_die('IPN Request Failure');
-            }
-
             # Get order data
             $order = new WC_Order($order_id);
 
