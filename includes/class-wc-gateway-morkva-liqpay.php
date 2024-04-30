@@ -469,15 +469,9 @@ class WC_Gateway_Morkva_Liqpay extends WC_Payment_Gateway
                         file_put_contents(__DIR__.'/log/debug.log', date('d-m-Y H:i:s') . PHP_EOL . print_r($parsed_data->amount_debit , 1), FILE_APPEND);      
                         file_put_contents(__DIR__.'/log/debug.log', date('d-m-Y H:i:s') . PHP_EOL . 'testestestetse', FILE_APPEND);                 
 
-                        if(class_exists( \Automattic\WooCommerce\Utilities\OrderUtil::class ) && OrderUtil::custom_orders_table_usage_is_enabled())
-                        {
-                            $order->update_meta_data( '_mrkv_liqpay_total_amount', $parsed_data->amount_debit );
-                        }
-                        else
-                        {
-                            // Save amount uah
-                            update_post_meta( $order_id, '_mrkv_liqpay_total_amount', $parsed_data->amount_debit );
-                        }
+                        $order->update_meta_data( '_mrkv_liqpay_total_amount', $parsed_data->amount_debit );
+                        // Save amount uah
+                        update_post_meta( $order_id, '_mrkv_liqpay_total_amount', $parsed_data->amount_debit );
 
                         // Save the order.
                         $order->save();
