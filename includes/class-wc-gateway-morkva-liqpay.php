@@ -70,7 +70,10 @@ class WC_Gateway_Morkva_Liqpay extends WC_Payment_Gateway
             # Version Woocommerce 1.6.6
             add_action('init', array(&$this, 'check_response'));
             add_action('woocommerce_update_options_payment_gateways', array(&$this, 'process_admin_options'));
-        }    
+        }
+
+        # Add payment image
+        add_filter( 'woocommerce_gateway_icon', array( $this, 'morkva_liqpay_gateway_icon' ), 100, 2 ); 
     }
 
     /**
@@ -82,24 +85,9 @@ class WC_Gateway_Morkva_Liqpay extends WC_Payment_Gateway
         # Save slug of Morkva Liqpay
         $this->id = 'morkva-liqpay';
         $this->icon = apply_filters('woocommerce_cod_icon', '');
-        $this->method_title = 'Morkva LiqPay ';
-        $this->method_description = __('Платіжний сервіс, який дає змогу здійснювати миттєві платежі в інтернеті та платіжних карт Visa, MasterCard у всьому світі.', 'mrkv-liqpay-extended');
+        $this->method_title = __('Morkva LiqPay ', 'mrkv-liqpay-extended');
+        $this->method_description = __('A payment service that allows you to make instant payments on the Internet and with Visa and MasterCard payment cards worldwide.', 'mrkv-liqpay-extended');
         $this->has_fields = false;
-    }
-
-    /**
-     * Get gateway icon
-     *
-     * @return string
-     * 
-     */
-    public function get_icon()
-    {
-        # Icon html Gateway Morkva liqpay
-        $icon_html = '';
-
-        # Return html 
-        return apply_filters('woocommerce_gateway_icon', $icon_html, $this->id);
     }
 
     /**
@@ -111,32 +99,32 @@ class WC_Gateway_Morkva_Liqpay extends WC_Payment_Gateway
 
         $this->form_fields = array(
             'enabled' => array(
-                'title' => __('Увімкнути/вимкнути', 'mrkv-liqpay-extended'),
-                'label' => __('Увімкнути', 'mrkv-liqpay-extended'),
+                'title' => __('Enable/disable', 'mrkv-liqpay-extended'),
+                'label' => __('Enable', 'mrkv-liqpay-extended'),
                 'type' => 'checkbox',
                 'description' => '',
                 'default' => 'no',
             ),
             'title' => array(
-                'title' => __('Заголовок', 'mrkv-liqpay-extended'),
+                'title' => __('Title', 'mrkv-liqpay-extended'),
                 'type' => 'text',
-                'description' => __('Maorkva LiqPay - Моментальні платежі по всьому світу', 'mrkv-liqpay-extended'),
+                'description' => __('Morkva LiqPay - Instant payments around the world', 'mrkv-liqpay-extended'),
                 'default' => '',
                 'desc_tip' => true,
             ),
             'description' => array(
-                'title' => __('Опис', 'mrkv-liqpay-extended'),
+                'title' => __('Description', 'mrkv-liqpay-extended'),
                 'type' => 'textarea',
-                'description' => __('Платіжний сервіс, який дає змогу здійснювати миттєві платежі в інтернеті та платіжних карт Visa, MasterCard у всьому світі.', 'mrkv-liqpay-extended'),
+                'description' => __('The text that will be visible on the checkout page if you choose the payment method Liqpay', 'mrkv-liqpay-extended'),
                 'default' => '',
-                'desc_tip' => true,
+                'desc_tip' => false,
             ),
             'instructions' => array(
-                'title' => __('Інструкція', 'mrkv-liqpay-extended'),
+                'title' => __('Instructions that will be sent by email', 'mrkv-liqpay-extended'),
                 'type' => 'textarea',
-                'description' => '',
+                'description' => __('The text that will be sent to the buyer in the order confirmation letter if the payment method Liqpay is selected', 'mrkv-liqpay-extended'),
                 'default' => '',
-                'desc_tip' => true,
+                'desc_tip' => false,
             ),
             'public_key' => array(
                 'title' => __('API public_key', 'mrkv-liqpay-extended'),
@@ -155,21 +143,21 @@ class WC_Gateway_Morkva_Liqpay extends WC_Payment_Gateway
                 'placeholder' => '',
             ),
             'test_enabled' => array(
-                'title' => __('Тестовий режим', 'mrkv-liqpay-extended'),
-                'label' => __('Увімкнути', 'mrkv-liqpay-extended'),
+                'title' => __('Test mode', 'mrkv-liqpay-extended'),
+                'label' => __('Enable', 'mrkv-liqpay-extended'),
                 'type' => 'checkbox',
                 'description' => '',
                 'default' => 'no',
             ),
             'test_enabled_admin' => array(
-                'title' => __('Тестовий режим для адміністратора', 'mrkv-liqpay-extended'),
-                'label' => __('Увімкнути', 'mrkv-liqpay-extended'),
+                'title' => __('Test mode for the administrator', 'mrkv-liqpay-extended'),
+                'label' => __('Enable', 'mrkv-liqpay-extended'),
                 'type' => 'checkbox',
                 'description' => '',
                 'default' => 'no',
             ),
             'test_public_key' => array(
-                'title' => __('Тестовий API public_key', 'mrkv-liqpay-extended'),
+                'title' => __('Test API public_key', 'mrkv-liqpay-extended'),
                 'type' => 'text',
                 'description' => '',
                 'default' => '',
@@ -177,14 +165,125 @@ class WC_Gateway_Morkva_Liqpay extends WC_Payment_Gateway
                 'placeholder' => '',
             ),
             'test_private_key' => array(
-                'title' => __('Тестовий API private_key', 'mrkv-liqpay-extended'),
+                'title' => __('Test API private_key', 'mrkv-liqpay-extended'),
                 'type' => 'text',
                 'description' => '',
                 'default' => '',
                 'desc_tip' => true,
                 'placeholder' => '',
             ),
+            'liqpay_image_type_black' => array(
+                'title' => __( 'Image style', 'mrkv-liqpay-extended' ),
+                'type' => 'checkbox',
+                'label' => __( 'For white background', 'mrkv-liqpay-extended' ) . '<span></span><p style="padding: 20px;"><img style="width: 200px;" src="' . LIQPAY_PLUGIN_URL . 'img/logo_liqpay_for_white.svg"></p>',
+                'default' => 'yes'
+            ),
+            'liqpay_image_type_white' => array(
+                'title' => '',
+                'type' => 'checkbox',
+                'label' => __( 'For black background', 'mrkv-liqpay-extended' ) . '<span></span><p style="background: #676767; padding: 20px; border-radius: 10px;"><img style="width: 200px;" src="' . LIQPAY_PLUGIN_URL . 'img/logo_liqpay_for_black.svg"></p>',
+                'default' => 'no'
+            ),
+            'liqpay_image_type_mini' => array(
+                'title' => '',
+                'type' => 'checkbox',
+                'label' => __( 'Only icon', 'mrkv-liqpay-extended' ) . '<span></span><p style="padding: 20px;"><img style="width: 100px;" src="' . LIQPAY_PLUGIN_URL . 'img/morkva-liqpay-logo.svg"></p>',
+                'default' => 'no'
+            ),
+            'liqpay_image_height' => array(
+                'title' => __( 'Image height(px)', 'mrkv-liqpay-extended' ),
+                'type' => 'number',
+                'label' => '',
+                'default' => ''
+            ),
+            'hide_image' => array(
+                'title' => __( 'Hide logo', 'mrkv-liqpay-extended' ),
+                'type' => 'checkbox',
+                'label' => '<span>' . __( 'If checked, Liqpay logo or custom logo will not be displayed by the payment method title', 'mrkv-liqpay-extended' ) . '</span>',
+                'default' => 'no'
+            ),
+            'url_liqpay_img' => array(
+                'title'       => __( 'Custom logo url', 'mrkv-liqpay-extended' ),
+                'type'        => 'text',
+                'desc_tip'    => true,
+                'description' => __( 'Enter full url to image', 'mrkv-liqpay-extended' ),
+                'default'     => '',
+            ),
         );
+    }
+
+    /**
+     * Add custom gateway icon
+     * 
+     * @var string Icon
+     * @var string Payment id
+     * */
+    function morkva_liqpay_gateway_icon( $icon, $id ) 
+    {
+        if ( $id === 'morkva-liqpay' ) 
+        {
+            if($this->get_option( 'hide_image' ) == 'no')
+            {
+                $height_btn = '';
+
+                if($this->get_option( 'liqpay_image_height' )  != 'no' && $this->get_option( 'liqpay_image_height' )  != '')
+                {
+                    $height_btn = 'style="width: auto; height: ' . $this->get_option( 'liqpay_image_height' ) . 'px; padding-top: 0.6%;"';
+                }
+                else
+                {
+                    $height_btn = 'style="width: 100%; max-width: 100px; padding-top: 0"';
+                }
+
+                if($this->get_option( 'url_liqpay_img' ))
+                {
+                    return '<img ' . $height_btn . ' src="' . $this->get_option( 'url_liqpay_img' ) . '" > '; 
+                }
+                else
+                {
+                    if($this->get_option( 'liqpay_image_type_black' ) != 'no')
+                    {
+                        return '<img ' . $height_btn . ' src="' . plugins_url( '../img/logo_liqpay_for_white.svg', __FILE__ ) . '" > '; 
+                    }
+                    elseif($this->get_option( 'liqpay_image_type_mini' ) != 'no')
+                    {
+                        return '<img ' . $height_btn . ' src="' . plugins_url( '../img/morkva-liqpay-logo.svg', __FILE__ ) . '" > '; 
+                    }
+                    else
+                    {
+                        return '<img ' . $height_btn . ' src="' . plugins_url( '../img/logo_liqpay_for_black.svg', __FILE__ ) . '" > '; 
+                    }
+                }
+            }
+        }
+        
+        return $icon;
+    }
+
+    public function get_icon_url()
+    {
+        if($this->get_option( 'hide_image' ) == 'no')
+        {
+            if($this->get_option( 'url_liqpay_img' ))
+            {
+                return $this->get_option( 'url_liqpay_img' ); 
+            }
+            else
+            {
+                if($this->get_option( 'liqpay_image_type_black' ) != 'no')
+                {
+                    return plugins_url( '../img/logo_liqpay_for_white.svg', __FILE__ ); 
+                }
+                elseif($this->get_option( 'liqpay_image_type_mini' ) != 'no')
+                {
+                    return plugins_url( '../img/morkva-liqpay-logo.svg', __FILE__ ); 
+                }
+                else
+                {
+                    return plugins_url( '../img/logo_liqpay_for_black.svg', __FILE__ ); 
+                }
+            }
+        }
     }
 
     /**
@@ -196,7 +295,7 @@ class WC_Gateway_Morkva_Liqpay extends WC_Payment_Gateway
     private function getDescription($order_id)
     {
         # Create description
-        $description = __('Оплата замовлення № ', 'mrkv-liqpay-extended') . $order_id;
+        $description = __('Payment for order № ', 'mrkv-liqpay-extended') . $order_id;
 
         # Return description
         return $description;
@@ -327,8 +426,8 @@ class WC_Gateway_Morkva_Liqpay extends WC_Payment_Gateway
         $wc_email = WC()->mailer()->get_emails()['WC_Email_New_Order'];
 
         # Create email data
-        $wc_email->settings['subject'] = '{site_title} - ' . __('Нове замовлення', 'mrkv-liqpay-extended') . ' ({order_number}) - {order_date}';
-        $wc_email->settings['heading'] = __('Нове замовлення', 'mrkv-liqpay-extended');
+        $wc_email->settings['subject'] = '{site_title} - ' . __('New order', 'mrkv-liqpay-extended') . ' ({order_number}) - {order_date}';
+        $wc_email->settings['heading'] = __('New order', 'mrkv-liqpay-extended');
 
         # Send email
         $wc_email->trigger($order_id);
@@ -462,7 +561,7 @@ class WC_Gateway_Morkva_Liqpay extends WC_Payment_Gateway
                     $order->save();
 
                     # Add to order note payment status
-                    $order->add_order_note(__('Платіж LiqPay виконано успішно.<br/>Ідентифікатор платежу LiqPay:  ', 'mrkv-liqpay-extended') . $parsed_data->liqpay_order_id ); 
+                    $order->add_order_note(__('LiqPay payment has been completed successfully.<br/>LiqPay payment identifier:  ', 'mrkv-liqpay-extended') . $parsed_data->liqpay_order_id ); 
 
                     if(isset($parsed_data) && isset($parsed_data->amount_debit) && isset($order_id)){
                         file_put_contents(__DIR__.'/log/debug.log', date('d-m-Y H:i:s') . PHP_EOL . 'testestestetse', FILE_APPEND);      
@@ -481,7 +580,7 @@ class WC_Gateway_Morkva_Liqpay extends WC_Payment_Gateway
             else 
             {
                 # Update status to failed
-                $order->update_status('failed', __('Помилка під час оплати', 'mrkv-liqpay-extended'));
+                $order->update_status('failed', __('Error during payment', 'mrkv-liqpay-extended'));
 
                 # Stop server work
                 exit;

@@ -87,14 +87,14 @@ class MorkvaLiqPay
         if (empty($public_key)) 
         {
             # Stop job and show error
-            throw new InvalidArgumentException(__('Public Key не внесено до налаштувань', 'mrkv-liqpay-extended'));
+            throw new InvalidArgumentException(__('Public Key is not entered in the settings', 'mrkv-liqpay-extended'));
         }
 
         # Check Private Key
         if (empty($private_key)) 
         {
             # Stop job and show error
-            throw new InvalidArgumentException(__('Private Key не внесено до налаштувань', 'mrkv-liqpay-extended'));
+            throw new InvalidArgumentException(__('Private Key is not entered in the settings', 'mrkv-liqpay-extended'));
         }
 
         # Save Public Key
@@ -204,35 +204,35 @@ class MorkvaLiqPay
         if (!isset($params['version'])) 
         {
             # Show Error message
-            throw new InvalidArgumentException(__('Значення версії не задано', 'mrkv-liqpay-extended'));
+            throw new InvalidArgumentException(__('The version value is not set', 'mrkv-liqpay-extended'));
         }
 
         # Check Amount of order
         if (!isset($params['amount'])) 
         {
             # Show Error message
-            throw new InvalidArgumentException(__('Значення суммы замовлення не задано', 'mrkv-liqpay-extended'));
+            throw new InvalidArgumentException(__('The value of the request amount is not set', 'mrkv-liqpay-extended'));
         }
 
         # Check Currency data
         if (!isset($params['currency'])) 
         {
             # Show Error message
-            throw new InvalidArgumentException(__('Значення валюти не задано', 'mrkv-liqpay-extended'));
+            throw new InvalidArgumentException(__('Currency value is not set', 'mrkv-liqpay-extended'));
         }
 
         # Check currency support
         if (!in_array($params['currency'], $this->_supportedCurrencies)) 
         {
             # Show Error message
-            throw new InvalidArgumentException(__('Валюта не підтримується', 'mrkv-liqpay-extended'));
+            throw new InvalidArgumentException(__('Currency is not supported', 'mrkv-liqpay-extended'));
         }
 
         # Check description data
         if (!isset($params['description'])) 
         {
             # Show Error message
-            throw new InvalidArgumentException(__('Значення опису не задано', 'mrkv-liqpay-extended'));
+            throw new InvalidArgumentException(__('Description value is not set', 'mrkv-liqpay-extended'));
         }
 
         # Return all params

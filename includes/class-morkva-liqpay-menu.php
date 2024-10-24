@@ -28,6 +28,6 @@ Class MorkvaLiqpayMenu
     public function register_admin_menu()
     {
         # Add menu Liqpay
-        add_menu_page('Morkva LiqPay', 'Morkva LiqPay', 'manage_options', $this->slug, false, plugin_dir_url(__DIR__) . 'img/morkva-liqpay-logo.svg', 26);
+        add_menu_page(__('Morkva LiqPay', 'mrkv-liqpay-extended'), __('Morkva LiqPay', 'mrkv-liqpay-extended'), 'manage_options', $this->slug, false, plugin_dir_url(__DIR__) . 'img/morkva-liqpay-logo.svg', 26);
     }
 }

@@ -81,6 +81,7 @@ final class WC_Gateway_Morkva_Liqpay_Blocks extends AbstractPaymentMethodType
         $payment_data = array(
             'title' => $this->gateway->title,
             'description' => $this->gateway->description,
+            'icon' => $this->gateway->get_icon_url()
         );
 
         # Return payment data
