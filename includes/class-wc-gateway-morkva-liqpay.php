@@ -96,6 +96,14 @@ class WC_Gateway_Morkva_Liqpay extends WC_Payment_Gateway
      */
     public function init_form_fields()
     {
+        $all_order_statuses = wc_get_order_statuses();
+        $correct_order_statuses = array();
+
+        foreach($all_order_statuses as $k => $v)
+        {
+            $k = str_replace('wc-', '', $k);
+            $correct_order_statuses[$k] = $v;
+        }
 
         $this->form_fields = array(
             'enabled' => array(
@@ -208,6 +216,14 @@ class WC_Gateway_Morkva_Liqpay extends WC_Payment_Gateway
                 'desc_tip'    => true,
                 'description' => __( 'Enter full url to image', 'mrkv-liqpay-extended' ),
                 'default'     => '',
+            ),
+            'liqpay_order_status' => array(
+                'title' => __( 'Status of completed payment', 'mrkv-liqpay-extended' ),
+                'type' => 'select',
+                'description' => __( 'Select the status to which the order status will change after successful payment', 'mrkv-liqpay-extended' ),
+                'label' => '',
+                'options' => $correct_order_statuses,
+                'default' => 'processing',
             ),
         );
     }
@@ -552,14 +568,6 @@ class WC_Gateway_Morkva_Liqpay extends WC_Payment_Gateway
                     // Save the order.
                     $order->save();
 
-                    # Update order status
-                    $order->update_status('processing');
-
-                    # Switch payment to complete
-                    $order->payment_complete();
-
-                    $order->save();
-
                     # Add to order note payment status
                     $order->add_order_note(__('LiqPay payment has been completed successfully.<br/>LiqPay payment identifier:  ', 'mrkv-liqpay-extended') . $parsed_data->liqpay_order_id ); 
 
@@ -575,6 +583,16 @@ class WC_Gateway_Morkva_Liqpay extends WC_Payment_Gateway
                         // Save the order.
                         $order->save();
                     }
+
+                    $new_order_status = ($this->get_option( 'liqpay_order_status' ) && $this->get_option( 'liqpay_order_status' ) != '') ? $this->get_option( 'liqpay_order_status' ) : 'processing';
+
+                    # Update order status
+                    $order->update_status($new_order_status);
+
+                    # Switch payment to complete
+                    $order->payment_complete();
+
+                    $order->save();
                 }
             } 
             else 
