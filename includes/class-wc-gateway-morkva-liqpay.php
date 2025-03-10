@@ -21,6 +21,11 @@ use Automattic\WooCommerce\Utilities\OrderUtil;
  */
 class WC_Gateway_Morkva_Liqpay extends WC_Payment_Gateway
 {
+    public string $instructions;
+    public string $lang;
+    public array $enable_for_methods;
+    public bool $enable_for_virtual;
+    
     /**
      * Constructor for the gateway
      */
@@ -563,6 +568,22 @@ class WC_Gateway_Morkva_Liqpay extends WC_Payment_Gateway
                         update_post_meta( $order_id, '_mrkv_liqpay_commission_credit', $parsed_data->commission_credit );
 
                         $message .= ' ' . __('commission_credit:  ', 'mrkv-liqpay-extended') . $parsed_data->commission_credit . '<br>';
+                    }
+
+                    if(isset($parsed_data) && isset($parsed_data->rrn_debit) && !$order->get_meta('_mrkv_liqpay_rrn_debit'))
+                    {
+                       $order->update_meta_data( '_mrkv_liqpay_rrn_debit', $parsed_data->rrn_debit );
+                       update_post_meta( $order_id, '_mrkv_liqpay_rrn_debit', $parsed_data->rrn_debit );
+
+                       $message .= ' ' . __('rrn_debit:  ', 'mrkv-liqpay-extended') . $parsed_data->rrn_debit . '<br>';
+                    }
+
+                    if(isset($parsed_data) && isset($parsed_data->authcode_debit) && !$order->get_meta('_mrkv_liqpay_authcode_debit'))
+                    {
+                       $order->update_meta_data( '_mrkv_liqpay_authcode_debit', $parsed_data->authcode_debit );
+                       update_post_meta( $order_id, '_mrkv_liqpay_authcode_debit', $parsed_data->authcode_debit );
+
+                       $message .= ' ' . __('authcode_debit:  ', 'mrkv-liqpay-extended') . $parsed_data->authcode_debit . '<br>';
                     }
 
                     // Save the order.
