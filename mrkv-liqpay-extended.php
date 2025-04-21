@@ -2,15 +2,15 @@
 /*
  * Plugin Name: Morkva Liqpay Extended
  * Description: LiqPay Payment Gateway with callback by Morkva
- * Version: 0.8.1
- * Tested up to: 6.7
+ * Version: 0.8.2
+ * Tested up to: 6.8
  * Requires at least: 5.2
  * Requires PHP: 7.1
  * Author: MORKVA
  * Author URI: https://morkva.co.ua
  * Text Domain: mrkv-liqpay-extended
  * WC requires at least: 5.4.0
- * WC tested up to: 9.6.0
+ * WC tested up to: 9.8.0
  * Domain Path: /i18n
  */
 
