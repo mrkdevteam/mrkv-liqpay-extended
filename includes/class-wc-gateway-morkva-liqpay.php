@@ -346,9 +346,6 @@ class WC_Gateway_Morkva_Liqpay extends WC_Payment_Gateway
             $this->pending_new_order_notification($order->get_id());
         } 
 
-        # Remove cart data
-        WC()->cart->empty_cart();
-
         # Include Api Morkva liqpay
         require_once(__DIR__ . '/classes/MorkvaLiqPay.php');
 
@@ -532,16 +529,8 @@ class WC_Gateway_Morkva_Liqpay extends WC_Payment_Gateway
             $currency = $parsed_data->currency;
             $transaction_id = $parsed_data->transaction_id;
 
-            file_put_contents(__DIR__.'/log/debug.log', date('d-m-Y H:i:s') . PHP_EOL . ' Status: ' .  print_r($status, 1), FILE_APPEND); 
-
             # Get order data
             $order = new WC_Order($order_id);
-
-            file_put_contents(__DIR__.'/log/debug.log', date('d-m-Y H:i:s') . PHP_EOL . print_r($status, 1), FILE_APPEND); 
-            file_put_contents(__DIR__.'/log/debug.log', date('d-m-Y H:i:s') . PHP_EOL . ' order_id: ' .  print_r($order_id, 1), FILE_APPEND); 
-            file_put_contents(__DIR__.'/log/debug.log', date('d-m-Y H:i:s') . PHP_EOL . ' order_id: ' .  print_r($parsed_data, 1), FILE_APPEND); 
-
-
 
             # Check status response 
             if ($status == 'success' || $status == 'sandbox' || $status == 'hold_wait') 
@@ -637,11 +626,7 @@ class WC_Gateway_Morkva_Liqpay extends WC_Payment_Gateway
                         $order->add_order_note(__('LiqPay payment has been completed successfully.<br/>LiqPay payment identifier:  ', 'mrkv-liqpay-extended') . $parsed_data->liqpay_order_id );
                     } 
 
-                    if(isset($parsed_data) && isset($parsed_data->amount_debit) && isset($order_id)){
-                        file_put_contents(__DIR__.'/log/debug.log', date('d-m-Y H:i:s') . PHP_EOL . 'testestestetse', FILE_APPEND);      
-                        file_put_contents(__DIR__.'/log/debug.log', date('d-m-Y H:i:s') . PHP_EOL . print_r($parsed_data->amount_debit , 1), FILE_APPEND);      
-                        file_put_contents(__DIR__.'/log/debug.log', date('d-m-Y H:i:s') . PHP_EOL . 'testestestetse', FILE_APPEND);                 
-
+                    if(isset($parsed_data) && isset($parsed_data->amount_debit) && isset($order_id)){                 
                         $order->update_meta_data( '_mrkv_liqpay_total_amount', $parsed_data->amount_debit );
                         // Save amount uah
                         update_post_meta( $order_id, '_mrkv_liqpay_total_amount', $parsed_data->amount_debit );
