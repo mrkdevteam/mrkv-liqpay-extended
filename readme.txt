@@ -2,8 +2,8 @@
 Contributors: bandido, dpmine
 Plugin Name: Morkva Liqpay Extended
 Tags: LiqPay, Ликпей, Лікпей
-Tested up to: 6.8
-Stable tag: 0.8.4
+Tested up to: 6.9
+Stable tag: 0.8.5
 WC tested up to: 9.8.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -31,6 +31,9 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 
 Потрібна підтримка чи додатковий функціонал? support@morkva.co.ua
+
+= 0.8.5 =
+* WP 6.9 - сумісний
 
 = 0.8.4 =
 * [fix] виправили переклад
