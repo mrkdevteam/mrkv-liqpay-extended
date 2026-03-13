@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Morkva Liqpay Extended\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-10-21 10:52+0000\n"
-"PO-Revision-Date: 2025-04-14 08:59+0000\n"
+"PO-Revision-Date: 2026-01-07 07:56+0000\n"
 "Last-Translator: \n"
 "Language-Team: English (UK)\n"
 "Language: en_GB\n"
@@ -33,11 +33,12 @@ msgstr ""
 "A payment service that allows you to make instant payments on the Internet "
 "and with Visa and MasterCard payment cards worldwide."
 
-#: includes/class-wc-gateway-morkva-liqpay.php:575
+#: includes/class-wc-gateway-morkva-liqpay.php:583
+#: includes/class-wc-gateway-morkva-liqpay.php:590
 msgid "acq_id:  "
 msgstr "acq_id:  "
 
-#: includes/class-wc-gateway-morkva-liqpay.php:583
+#: includes/class-wc-gateway-morkva-liqpay.php:606
 msgid "agent_commission:  "
 msgstr "agent_commission:  "
 
@@ -49,7 +50,7 @@ msgstr "API private_key"
 msgid "API public_key"
 msgstr "API public_key"
 
-#: includes/class-wc-gateway-morkva-liqpay.php:623
+#: includes/class-wc-gateway-morkva-liqpay.php:646
 msgid "authcode_debit:  "
 msgstr "authcode_debit:  "
 
@@ -61,7 +62,7 @@ msgstr "Cancel"
 msgid "Cancel hold"
 msgstr "Cancel hold"
 
-#: includes/class-wc-gateway-morkva-liqpay.php:607
+#: includes/class-wc-gateway-morkva-liqpay.php:630
 msgid "commission_credit:  "
 msgstr "commission_credit:  "
 
@@ -111,7 +112,15 @@ msgstr "Enter amount"
 msgid "Enter full url to image"
 msgstr "Enter full url to image"
 
-#: includes/class-wc-gateway-morkva-liqpay.php:674
+#: includes/class-wc-gateway-morkva-liqpay.php:248
+msgid "Enter Merchant ID"
+msgstr "Enter Merchant ID"
+
+#: includes/class-wc-gateway-morkva-liqpay.php:255
+msgid "Enter Terminal ID"
+msgstr "Enter Terminal ID"
+
+#: includes/class-wc-gateway-morkva-liqpay.php:693
 msgid "Error during payment"
 msgstr "Error during payment"
 
@@ -179,7 +188,7 @@ msgstr "Liqpay Hold"
 msgid "LiqPay Payment Gateway with callback by Morkva"
 msgstr "LiqPay Payment Gateway with callback by Morkva"
 
-#: includes/class-wc-gateway-morkva-liqpay.php:637
+#: includes/class-wc-gateway-morkva-liqpay.php:660
 msgid ""
 "LiqPay payment has been completed successfully.<br/>LiqPay payment "
 "identifier:  "
@@ -187,7 +196,7 @@ msgstr ""
 "LiqPay payment has been completed successfully.<br/>LiqPay payment "
 "identifier:  "
 
-#: includes/class-wc-gateway-morkva-liqpay.php:632
+#: includes/class-wc-gateway-morkva-liqpay.php:655
 msgid ""
 "LiqPay payment hold has been completed successfully.<br/>LiqPay payment "
 "identifier:  "
@@ -195,9 +204,13 @@ msgstr ""
 "LiqPay payment hold has been completed successfully.<br/>LiqPay payment "
 "identifier:  "
 
-#: includes/class-wc-gateway-morkva-liqpay.php:591
+#: includes/class-wc-gateway-morkva-liqpay.php:614
 msgid "liqpay_order_id:  "
 msgstr "liqpay_order_id:  "
+
+#: includes/class-wc-gateway-morkva-liqpay.php:245
+msgid "Merchant ID"
+msgstr "Merchant ID"
 
 #. Author of the plugin
 msgid "MORKVA"
@@ -220,8 +233,12 @@ msgstr "Morkva LiqPay - Instant payments around the world"
 msgid "Morkva Liqpay Extended"
 msgstr "Morkva Liqpay Extended"
 
-#: includes/class-wc-gateway-morkva-liqpay.php:462
-#: includes/class-wc-gateway-morkva-liqpay.php:463
+#: includes/class-wc-gateway-morkva-liqpay.php:240
+msgid "National cashback"
+msgstr "National cashback"
+
+#: includes/class-wc-gateway-morkva-liqpay.php:478
+#: includes/class-wc-gateway-morkva-liqpay.php:479
 msgid "New order"
 msgstr "New order"
 
@@ -229,7 +246,7 @@ msgstr "New order"
 msgid "Only icon"
 msgstr "Only icon"
 
-#: includes/class-wc-gateway-morkva-liqpay.php:325
+#: includes/class-wc-gateway-morkva-liqpay.php:344
 msgid "Payment for order № "
 msgstr "Payment for order № "
 
@@ -241,11 +258,15 @@ msgstr "Private Key is not entered in the settings"
 msgid "Public Key is not entered in the settings"
 msgstr "Public Key is not entered in the settings"
 
-#: includes/class-wc-gateway-morkva-liqpay.php:599
+#: includes/class-wc-gateway-morkva-liqpay.php:622
 msgid "receiver_commission:  "
 msgstr "receiver_commission:  "
 
-#: includes/class-wc-gateway-morkva-liqpay.php:615
+#: includes/class-wc-gateway-morkva-liqpay.php:242
+msgid "Request Merchant ID and Terminal ID from LiqPay support"
+msgstr "Request Merchant ID and Terminal ID from LiqPay support"
+
+#: includes/class-wc-gateway-morkva-liqpay.php:638
 msgid "rrn_debit:  "
 msgstr "rrn_debit:  "
 
@@ -257,17 +278,25 @@ msgstr ""
 "Select the status to which the order status will change after successful "
 "payment"
 
-#: includes/class-wc-gateway-morkva-liqpay.php:559
+#: includes/class-wc-gateway-morkva-liqpay.php:567
 msgid "sender_card_mask2:  "
 msgstr "sender_card_mask2:  "
 
-#: includes/class-wc-gateway-morkva-liqpay.php:567
+#: includes/class-wc-gateway-morkva-liqpay.php:575
 msgid "sender_card_type:  "
 msgstr "sender_card_type:  "
 
 #: includes/class-wc-gateway-morkva-liqpay.php:226
 msgid "Status of completed payment"
 msgstr "Status of completed payment"
+
+#: includes/class-wc-gateway-morkva-liqpay.php:252
+msgid "Terminal ID"
+msgstr "Terminal ID"
+
+#: includes/class-wc-gateway-morkva-liqpay.php:598
+msgid "terminal_id:  "
+msgstr "terminal_id:  "
 
 #: includes/class-wc-gateway-morkva-liqpay.php:181
 msgid "Test API private_key"

@@ -29,11 +29,13 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 * інтерфейс чекауту лише український
 
+* підтримка програми ["Національний кешбек"](https://docs.morkva.co.ua/uk/robota-z-saitom/natsional-nii-kieshbiek-iak-pidkliuchiti)
+
 
 Потрібна підтримка чи додатковий функціонал? support@morkva.co.ua
 
 = 0.8.6 =
-* [new] оновили UI налаштування 
+* [new] додали підтримку програми "Національний кешбек"
 
 = 0.8.5 =
 * WP 6.9 - сумісний

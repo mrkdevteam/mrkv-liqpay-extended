@@ -236,6 +236,25 @@ class WC_Gateway_Morkva_Liqpay extends WC_Payment_Gateway
                 'type' => 'checkbox',
                 'default' => 'no',
             ),
+            'liqpay_national_cashback' => array(
+                'title' => __( 'National cashback', 'mrkv-liqpay-extended' ),
+                'type' => 'title',
+                'description' => __( 'Request Merchant ID and Terminal ID from LiqPay support', 'mrkv-liqpay-extended' ),
+            ),
+            'national_cashback_merchant_id' => array(
+                'title'       => __( 'Merchant ID', 'mrkv-liqpay-extended' ),
+                'type'        => 'text',
+                'desc_tip'    => true,
+                'description' => __( 'Enter Merchant ID', 'mrkv-liqpay-extended' ),
+                'default'     => '',
+            ),
+            'national_cashback_terminal_id' => array(
+                'title'       => __( 'Terminal ID', 'mrkv-liqpay-extended' ),
+                'type'        => 'text',
+                'desc_tip'    => true,
+                'description' => __( 'Enter Terminal ID', 'mrkv-liqpay-extended' ),
+                'default'     => '',
+            ),
         );
     }
 
@@ -556,12 +575,27 @@ class WC_Gateway_Morkva_Liqpay extends WC_Payment_Gateway
                         $message .= ' ' . __('sender_card_type:  ', 'mrkv-liqpay-extended') . $parsed_data->sender_card_type . '<br>';
                     }
 
-                    if(isset($parsed_data) && isset($parsed_data->acq_id)  && !$order->get_meta('_mrkv_liqpay_acq_id'))
+                    if($this->get_option('national_cashback_merchant_id'))
+                    {
+                        $order->update_meta_data( '_mrkv_liqpay_acq_id', $this->get_option('national_cashback_merchant_id') );
+                        update_post_meta( $order_id, '_mrkv_liqpay_acq_id', $this->get_option('national_cashback_merchant_id') );
+
+                        $message .= ' ' . __('acq_id:  ', 'mrkv-liqpay-extended') . $this->get_option('national_cashback_merchant_id') . '<br>';
+                    }
+                    elseif(isset($parsed_data) && isset($parsed_data->acq_id)  && !$order->get_meta('_mrkv_liqpay_acq_id'))
                     {
                         $order->update_meta_data( '_mrkv_liqpay_acq_id', $parsed_data->acq_id );
                         update_post_meta( $order_id, '_mrkv_liqpay_acq_id', $parsed_data->acq_id );
 
                         $message .= ' ' . __('acq_id:  ', 'mrkv-liqpay-extended') . $parsed_data->acq_id . '<br>';
+                    }
+
+                    if($this->get_option('national_cashback_terminal_id'))
+                    {
+                        $order->update_meta_data( '_mrkv_liqpay_terminal_id', $this->get_option('national_cashback_terminal_id') );
+                        update_post_meta( $order_id, '_mrkv_liqpay_terminal_id', $this->get_option('national_cashback_terminal_id') );
+
+                        $message .= ' ' . __('terminal_id:  ', 'mrkv-liqpay-extended') . $this->get_option('national_cashback_terminal_id') . '<br>';
                     }
 
                     if(isset($parsed_data) && isset($parsed_data->agent_commission) && !$order->get_meta('_mrkv_liqpay_agent_commission'))
