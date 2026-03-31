@@ -549,7 +549,12 @@ class WC_Gateway_Morkva_Liqpay extends WC_Payment_Gateway
             $transaction_id = $parsed_data->transaction_id;
 
             # Get order data
-            $order = new WC_Order($order_id);
+            $order = wc_get_order($order_id);
+
+            if(!$order)
+            {
+                return;
+            }
 
             # Check status response 
             if ($status == 'success' || $status == 'sandbox' || $status == 'hold_wait') 
