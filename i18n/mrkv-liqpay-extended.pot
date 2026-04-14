@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Morkva Liqpay Extended\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-07 07:55+0000\n"
+"POT-Creation-Date: 2026-04-09 08:44+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: \n"
@@ -29,12 +29,12 @@ msgid ""
 "and with Visa and MasterCard payment cards worldwide."
 msgstr ""
 
-#: includes/class-wc-gateway-morkva-liqpay.php:583
-#: includes/class-wc-gateway-morkva-liqpay.php:590
+#: includes/class-wc-gateway-morkva-liqpay.php:588
+#: includes/class-wc-gateway-morkva-liqpay.php:595
 msgid "acq_id:  "
 msgstr ""
 
-#: includes/class-wc-gateway-morkva-liqpay.php:606
+#: includes/class-wc-gateway-morkva-liqpay.php:611
 msgid "agent_commission:  "
 msgstr ""
 
@@ -46,7 +46,7 @@ msgstr ""
 msgid "API public_key"
 msgstr ""
 
-#: includes/class-wc-gateway-morkva-liqpay.php:646
+#: includes/class-wc-gateway-morkva-liqpay.php:651
 msgid "authcode_debit:  "
 msgstr ""
 
@@ -58,7 +58,7 @@ msgstr ""
 msgid "Cancel hold"
 msgstr ""
 
-#: includes/class-wc-gateway-morkva-liqpay.php:630
+#: includes/class-wc-gateway-morkva-liqpay.php:635
 msgid "commission_credit:  "
 msgstr ""
 
@@ -116,7 +116,7 @@ msgstr ""
 msgid "Enter Terminal ID"
 msgstr ""
 
-#: includes/class-wc-gateway-morkva-liqpay.php:693
+#: includes/class-wc-gateway-morkva-liqpay.php:703
 msgid "Error during payment"
 msgstr ""
 
@@ -182,19 +182,25 @@ msgstr ""
 msgid "LiqPay Payment Gateway with callback by Morkva"
 msgstr ""
 
-#: includes/class-wc-gateway-morkva-liqpay.php:660
+#: includes/class-wc-gateway-morkva-liqpay.php:670
 msgid ""
 "LiqPay payment has been completed successfully.<br/>LiqPay payment "
 "identifier:  "
 msgstr ""
 
-#: includes/class-wc-gateway-morkva-liqpay.php:655
+#: includes/class-wc-gateway-morkva-liqpay.php:665
+msgid ""
+"LiqPay payment has been completed, but requires additional approval by "
+"LiqPay. Transaction status: wait_secure.<br/>LiqPay payment identifier:  "
+msgstr ""
+
+#: includes/class-wc-gateway-morkva-liqpay.php:660
 msgid ""
 "LiqPay payment hold has been completed successfully.<br/>LiqPay payment "
 "identifier:  "
 msgstr ""
 
-#: includes/class-wc-gateway-morkva-liqpay.php:614
+#: includes/class-wc-gateway-morkva-liqpay.php:619
 msgid "liqpay_order_id:  "
 msgstr ""
 
@@ -247,7 +253,7 @@ msgstr ""
 msgid "Public Key is not entered in the settings"
 msgstr ""
 
-#: includes/class-wc-gateway-morkva-liqpay.php:622
+#: includes/class-wc-gateway-morkva-liqpay.php:627
 msgid "receiver_commission:  "
 msgstr ""
 
@@ -255,7 +261,7 @@ msgstr ""
 msgid "Request Merchant ID and Terminal ID from LiqPay support"
 msgstr ""
 
-#: includes/class-wc-gateway-morkva-liqpay.php:638
+#: includes/class-wc-gateway-morkva-liqpay.php:643
 msgid "rrn_debit:  "
 msgstr ""
 
@@ -265,11 +271,11 @@ msgid ""
 "payment"
 msgstr ""
 
-#: includes/class-wc-gateway-morkva-liqpay.php:567
+#: includes/class-wc-gateway-morkva-liqpay.php:572
 msgid "sender_card_mask2:  "
 msgstr ""
 
-#: includes/class-wc-gateway-morkva-liqpay.php:575
+#: includes/class-wc-gateway-morkva-liqpay.php:580
 msgid "sender_card_type:  "
 msgstr ""
 
@@ -281,7 +287,7 @@ msgstr ""
 msgid "Terminal ID"
 msgstr ""
 
-#: includes/class-wc-gateway-morkva-liqpay.php:598
+#: includes/class-wc-gateway-morkva-liqpay.php:603
 msgid "terminal_id:  "
 msgstr ""
 

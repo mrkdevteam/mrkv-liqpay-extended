@@ -557,7 +557,7 @@ class WC_Gateway_Morkva_Liqpay extends WC_Payment_Gateway
             }
 
             # Check status response 
-            if ($status == 'success' || $status == 'sandbox' || $status == 'hold_wait') 
+            if ($status == 'success' || $status == 'sandbox' || $status == 'hold_wait' || $status == 'wait_secure') 
             {
                 if(!$order->has_status('processing'))
                 {
@@ -658,6 +658,11 @@ class WC_Gateway_Morkva_Liqpay extends WC_Payment_Gateway
                     {
                         # Add to order note payment status
                         $order->add_order_note(__('LiqPay payment hold has been completed successfully.<br/>LiqPay payment identifier:  ', 'mrkv-liqpay-extended') . $parsed_data->liqpay_order_id );
+                    }
+                    elseif($status == 'wait_secure')
+                    {
+                        # Add to order note payment status
+                        $order->add_order_note(__('LiqPay payment has been completed, but requires additional approval by LiqPay. Transaction status: wait_secure.<br/>LiqPay payment identifier:  ', 'mrkv-liqpay-extended') . $parsed_data->liqpay_order_id );
                     }
                     else
                     {

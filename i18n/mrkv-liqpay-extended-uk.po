@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Morkva Liqpay Extended\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-10-21 10:52+0000\n"
-"PO-Revision-Date: 2026-01-07 07:58+0000\n"
+"PO-Revision-Date: 2026-04-09 08:45+0000\n"
 "Last-Translator: \n"
 "Language-Team: Українська\n"
 "Language: uk\n"
@@ -34,12 +34,12 @@ msgstr ""
 "Платіжний сервіс, який дозволяє здійснювати миттєві платежі в Інтернеті та "
 "за допомогою платіжних карток Visa і MasterCard по всьому світу."
 
-#: includes/class-wc-gateway-morkva-liqpay.php:583
-#: includes/class-wc-gateway-morkva-liqpay.php:590
+#: includes/class-wc-gateway-morkva-liqpay.php:588
+#: includes/class-wc-gateway-morkva-liqpay.php:595
 msgid "acq_id:  "
 msgstr "acq_id:  "
 
-#: includes/class-wc-gateway-morkva-liqpay.php:606
+#: includes/class-wc-gateway-morkva-liqpay.php:611
 msgid "agent_commission:  "
 msgstr "agent_commission:  "
 
@@ -51,7 +51,7 @@ msgstr "API private_key"
 msgid "API public_key"
 msgstr "API public_key"
 
-#: includes/class-wc-gateway-morkva-liqpay.php:646
+#: includes/class-wc-gateway-morkva-liqpay.php:651
 msgid "authcode_debit:  "
 msgstr "authcode_debit:  "
 
@@ -63,7 +63,7 @@ msgstr "Скасувати"
 msgid "Cancel hold"
 msgstr "Скасувати холд"
 
-#: includes/class-wc-gateway-morkva-liqpay.php:630
+#: includes/class-wc-gateway-morkva-liqpay.php:635
 msgid "commission_credit:  "
 msgstr "commission_credit:  "
 
@@ -121,7 +121,7 @@ msgstr "Введіть Merchant ID"
 msgid "Enter Terminal ID"
 msgstr "Введіть Terminal ID"
 
-#: includes/class-wc-gateway-morkva-liqpay.php:693
+#: includes/class-wc-gateway-morkva-liqpay.php:703
 msgid "Error during payment"
 msgstr "Помилка під час оплати"
 
@@ -189,19 +189,28 @@ msgstr "Liqpay Холд"
 msgid "LiqPay Payment Gateway with callback by Morkva"
 msgstr "Платіжний шлюз LiqPay із callback від Morkva"
 
-#: includes/class-wc-gateway-morkva-liqpay.php:660
+#: includes/class-wc-gateway-morkva-liqpay.php:670
 msgid ""
 "LiqPay payment has been completed successfully.<br/>LiqPay payment "
 "identifier:  "
 msgstr "Платіж LiqPay успішно завершено.<br/>Ідентифікатор платежу LiqPay:"
 
-#: includes/class-wc-gateway-morkva-liqpay.php:655
+#: includes/class-wc-gateway-morkva-liqpay.php:665
+msgid ""
+"LiqPay payment has been completed, but requires additional approval by "
+"LiqPay. Transaction status: wait_secure.<br/>LiqPay payment identifier:  "
+msgstr ""
+"Платіж через LiqPay було здійснено, але він потребує додаткового "
+"підтвердження з боку LiqPay. Статус транзакції: wait_secure.<br/>"
+"Ідентифікатор платежу LiqPay:  "
+
+#: includes/class-wc-gateway-morkva-liqpay.php:660
 msgid ""
 "LiqPay payment hold has been completed successfully.<br/>LiqPay payment "
 "identifier:  "
 msgstr "Утримання платежу LiqPay успішне.<br/>Ідентифікатор платежу LiqPay:"
 
-#: includes/class-wc-gateway-morkva-liqpay.php:614
+#: includes/class-wc-gateway-morkva-liqpay.php:619
 msgid "liqpay_order_id:  "
 msgstr "liqpay_order_id:  "
 
@@ -254,7 +263,7 @@ msgstr "Приватний ключ не введено в налаштуван�
 msgid "Public Key is not entered in the settings"
 msgstr "Публічний ключ не введено в налаштуваннях"
 
-#: includes/class-wc-gateway-morkva-liqpay.php:622
+#: includes/class-wc-gateway-morkva-liqpay.php:627
 msgid "receiver_commission:  "
 msgstr "receiver_commission:  "
 
@@ -262,7 +271,7 @@ msgstr "receiver_commission:  "
 msgid "Request Merchant ID and Terminal ID from LiqPay support"
 msgstr "Запросіть Merchant ID та Terminal ID у підтримки LiqPay"
 
-#: includes/class-wc-gateway-morkva-liqpay.php:638
+#: includes/class-wc-gateway-morkva-liqpay.php:643
 msgid "rrn_debit:  "
 msgstr "rrn_debit:  "
 
@@ -273,11 +282,11 @@ msgid ""
 msgstr ""
 "Виберіть статус, на який зміниться статус замовлення після успішної оплати"
 
-#: includes/class-wc-gateway-morkva-liqpay.php:567
+#: includes/class-wc-gateway-morkva-liqpay.php:572
 msgid "sender_card_mask2:  "
 msgstr "sender_card_mask2:  "
 
-#: includes/class-wc-gateway-morkva-liqpay.php:575
+#: includes/class-wc-gateway-morkva-liqpay.php:580
 msgid "sender_card_type:  "
 msgstr "sender_card_type:  "
 
@@ -289,7 +298,7 @@ msgstr "Статус замовлення"
 msgid "Terminal ID"
 msgstr "Terminal ID"
 
-#: includes/class-wc-gateway-morkva-liqpay.php:598
+#: includes/class-wc-gateway-morkva-liqpay.php:603
 msgid "terminal_id:  "
 msgstr "terminal_id:  "
 
