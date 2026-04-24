@@ -23,6 +23,103 @@ if (!class_exists('MRKV_LIQPAY_ORDERS'))
 
 			add_action( 'wp_ajax_mrkv_liqpay_final_payment_hold', array( $this, 'mrkv_liqpay_final_payment_hold_func' ) );
 			add_action( 'wp_ajax_nopriv_mrkv_liqpay_final_payment_hold', array( $this, 'mrkv_liqpay_final_payment_hold_func' ) );
+
+			add_action('mrkv_liqpay_settings_sidebar', [$this, 'mrkv_liqpay_settings_sidebar_func']);
+		}
+
+		public function mrkv_liqpay_settings_sidebar_func()
+		{
+			?>
+				<div class="morkva-settings-sidebar" style="flex: 1; min-width: 250px;">
+					<div class="morkva-settings-sidebar_inner" style="background: #fff; padding: 20px; border: 1px solid #ccd0d4; border-radius: 4px;margin-bottom:15px;">
+						<h3 style="margin-top: 0;"><?php echo __( 'Like this plugin?', 'mrkv-liqpay-extended' ); ?></h3>
+						<p>
+							<?php echo __( 'Support our efforts with a', 'mrkv-liqpay-extended' ) . ' '; ?>
+							<img src="<?php echo plugins_url( '../img/star.svg', __FILE__ ); ?>" alt="Star" alt="Star">
+							<img src="<?php echo plugins_url( '../img/star.svg', __FILE__ ); ?>" alt="Star" alt="Star">
+							<img src="<?php echo plugins_url( '../img/star.svg', __FILE__ ); ?>" alt="Star" alt="Star">
+							<img src="<?php echo plugins_url( '../img/star.svg', __FILE__ ); ?>" alt="Star" alt="Star">
+							<img src="<?php echo plugins_url( '../img/star.svg', __FILE__ ); ?>" alt="Star" alt="Star">
+							<?php echo __( 'review at', 'mrkv-liqpay-extended' ) . ' <a href="https://wordpress.org/plugins/mrkv-liqpay-extended/" target="blanc">WordPress.org</a>'; ?>
+						</p>
+						<a class="button button-primary" href="https://wordpress.org/plugins/mrkv-liqpay-extended/" target="blanc">
+							<?php echo __( 'Leave', 'mrkv-liqpay-extended' ) . ' '; ?>
+							<img src="<?php echo plugins_url( '../img/star.svg', __FILE__ ); ?>" alt="Star" alt="Star">
+							<img src="<?php echo plugins_url( '../img/star.svg', __FILE__ ); ?>" alt="Star" alt="Star">
+							<img src="<?php echo plugins_url( '../img/star.svg', __FILE__ ); ?>" alt="Star" alt="Star">
+							<img src="<?php echo plugins_url( '../img/star.svg', __FILE__ ); ?>" alt="Star" alt="Star">
+							<img src="<?php echo plugins_url( '../img/star.svg', __FILE__ ); ?>" alt="Star" alt="Star">
+						</a>
+						<p>
+							<?php echo __( 'Isn’t good enough for a 5', 'mrkv-liqpay-extended' ) . ' '; ?>
+							<img src="<?php echo plugins_url( '../img/star.svg', __FILE__ ); ?>" alt="Star" alt="Star">? 
+							<?php echo __( 'Contact us via the widget on our website, or check out', 'mrkv-liqpay-extended' ) . ' <a href="https://docs.morkva.co.ua/uk?utm_source=plugin&utm_medium=sidebar&utm_campaign=liqpay_free" target="blanc">' . __( 'documantation', 'mrkv-liqpay-extended' ) . '</a>'; ?>
+						</p>
+						<div class="mrkv-btns-line-sidebar" style="display: flex;gap: 4px;">
+							<a class="button button-primary" href="https://morkva.co.ua/?utm_source=plugin&utm_medium=sidebar&utm_campaign=liqpay_free" target="blanc">
+								<?php echo __( 'Go to the website', 'mrkv-liqpay-extended' ); ?>
+							</a>
+							<a class="button" href="https://docs.morkva.co.ua/uk?utm_source=plugin&utm_medium=sidebar&utm_campaign=liqpay_free" target="blanc">
+								<?php echo __( 'Documantation', 'mrkv-liqpay-extended' ); ?>
+							</a>
+						</div>
+					</div>
+					<div class="morkva-settings-sidebar_inner" style="background: #fff; padding: 20px; border: 1px solid #ccd0d4; border-radius: 4px;margin-bottom:15px;">
+						<h3 style="margin-top: 0;"><?php echo __( 'Check out pro-version', 'mrkv-liqpay-extended' ); ?></h3>
+						<ul>
+							<li>
+								<img src="<?php echo plugins_url( '../img/check.svg', __FILE__ ); ?>" alt="Check" alt="Check">
+								<?php echo __( 'Pay by Parts', 'mrkv-liqpay-extended' ); ?>
+							</li>
+							<li>
+								<img src="<?php echo plugins_url( '../img/check.svg', __FILE__ ); ?>" alt="Check" alt="Check">
+								<?php echo __( 'Payment status validation', 'mrkv-liqpay-extended' ); ?>
+							</li>
+							<li>
+								<img src="<?php echo plugins_url( '../img/check.svg', __FILE__ ); ?>" alt="Check" alt="Check">
+								<?php echo __( 'Prepay', 'mrkv-liqpay-extended' ); ?>
+							</li>
+							<li><?php echo __( 'and more', 'mrkv-liqpay-extended' ); ?></li>
+						</ul>
+						<a class="button button-primary" href="https://morkva.co.ua/shop/woocommerce-liqpay-extended-pro/?utm_source=plugin&utm_medium=sidebar&utm_campaign=liqpay_free" target="blanc">
+							<?php echo __( 'Buy Pro-version', 'mrkv-liqpay-extended' ); ?>
+						</a>
+					</div>
+					<div class="morkva-settings-sidebar_inner" style="background: #fff; padding: 20px; border: 1px solid #ccd0d4; border-radius: 4px;margin-bottom:15px;">
+						<h3 style="margin-top: 0;"><?php echo __( 'Other free plugins', 'mrkv-liqpay-extended' ); ?></h3>
+						<?php
+							$response = wp_remote_get( 'https://morkva.co.ua/wp-json/pluginManagement/v2', array(
+								'headers' => array(
+								),
+								'timeout' => 30,
+								'redirection' => 5,
+								'httpversion' => '1.1',
+								'sslverify' => true
+							));
+
+							$mrkv_mono_response_data = $response['body'] ? json_decode( $response['body'], true ) : null;
+							$mrkv_mono_plugins = $mrkv_mono_response_data['plugins'] ?? [];
+
+							if(!empty($mrkv_mono_plugins))
+							{
+								?>
+									<ul style="list-style: disc;padding-left: 17px;">
+										<?php
+											foreach($mrkv_mono_plugins as $plugin_slug => $plugin_data)
+											{
+												if($plugin_slug == 'mrkv-liqpay-extended'){ continue; }
+												?>
+													<li><a style="display:block; margin-bottom:5px;" href="<?php echo $plugin_data['url'] ?? ''; ?>" target="blanc" class="plugin_line"><?php echo $plugin_data['label'] ?? ''; ?></a></li>
+												<?php
+											}
+										?>
+									</ul>
+								<?php
+							}
+						?>
+					</div>
+				</div>
+			<?php
 		}
 
 		/**
@@ -180,7 +277,7 @@ if (!class_exists('MRKV_LIQPAY_ORDERS'))
 		    		$payment_gateways = $wc_gateways->get_available_payment_gateways();
 		    		$liqpay_payment_gateway = $payment_gateways['morkva-liqpay'];
 
-		    		# Include Api Morkva liqpay
+		    		# Include Api morkva liqpay
         			require_once(__DIR__ . '/classes/MorkvaLiqPay.php');
 		    		$mrkv_liqpay_token = $liqpay_payment_gateway->get_keys_access();
 

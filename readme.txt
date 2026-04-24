@@ -1,9 +1,9 @@
-=== Morkva Liqpay Extended ===
+=== morkva Liqpay Extended ===
 Contributors: bandido, dpmine
-Plugin Name: Morkva Liqpay Extended
+Plugin Name: morkva Liqpay Extended
 Tags: LiqPay, Ликпей, Лікпей
 Tested up to: 6.9
-Stable tag: 0.8.8
+Stable tag: 0.9.0
 WC tested up to: 9.8.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -33,6 +33,9 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 
 Потрібна підтримка чи додатковий функціонал? support@morkva.co.ua
+
+= 0.9.0 =
+* [ui] зміни в інтерфейсі
 
 = 0.8.8 =
 * [new] додали підтримку статусу Платіж на перевірці
