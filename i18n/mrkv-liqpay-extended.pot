@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Morkva Liqpay Extended\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-23 11:50+0000\n"
+"POT-Creation-Date: 2026-04-28 06:23+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: \n"
@@ -38,6 +38,10 @@ msgstr ""
 msgid "agent_commission:  "
 msgstr ""
 
+#: includes/class-morkva-liqpay-orders.php:90
+msgid "All our plugins are cross-compatible"
+msgstr ""
+
 #: includes/class-morkva-liqpay-orders.php:82
 msgid "and more"
 msgstr ""
@@ -58,11 +62,11 @@ msgstr ""
 msgid "Buy Pro-version"
 msgstr ""
 
-#: includes/class-morkva-liqpay-orders.php:209
+#: includes/class-morkva-liqpay-orders.php:221
 msgid "Cancel"
 msgstr ""
 
-#: includes/class-morkva-liqpay-orders.php:207
+#: includes/class-morkva-liqpay-orders.php:219
 msgid "Cancel hold"
 msgstr ""
 
@@ -136,7 +140,7 @@ msgstr ""
 msgid "Enable/disable"
 msgstr ""
 
-#: includes/class-morkva-liqpay-orders.php:208
+#: includes/class-morkva-liqpay-orders.php:220
 msgid "Enter amount"
 msgstr ""
 
@@ -156,7 +160,7 @@ msgstr ""
 msgid "Error during payment"
 msgstr ""
 
-#: includes/class-morkva-liqpay-orders.php:206
+#: includes/class-morkva-liqpay-orders.php:218
 msgid "Finalize"
 msgstr ""
 
@@ -176,19 +180,19 @@ msgstr ""
 msgid "Hide logo"
 msgstr ""
 
-#: includes/class-morkva-liqpay-orders.php:288
+#: includes/class-morkva-liqpay-orders.php:300
 msgid "Hold canceled"
 msgstr ""
 
-#: includes/class-morkva-liqpay-orders.php:327
+#: includes/class-morkva-liqpay-orders.php:339
 msgid "Hold finalized"
 msgstr ""
 
-#: includes/class-morkva-liqpay-orders.php:255
+#: includes/class-morkva-liqpay-orders.php:267
 msgid "Hold is not applied to the order."
 msgstr ""
 
-#: includes/class-morkva-liqpay-orders.php:249
+#: includes/class-morkva-liqpay-orders.php:261
 msgid "Holding period is 30 days"
 msgstr ""
 
@@ -226,7 +230,7 @@ msgstr ""
 msgid "Like this plugin?"
 msgstr ""
 
-#: includes/class-morkva-liqpay-orders.php:172
+#: includes/class-morkva-liqpay-orders.php:184
 msgid "Liqpay Hold"
 msgstr ""
 

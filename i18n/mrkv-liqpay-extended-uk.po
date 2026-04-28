@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Morkva Liqpay Extended\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-10-21 10:52+0000\n"
-"PO-Revision-Date: 2026-04-23 11:52+0000\n"
+"PO-Revision-Date: 2026-04-28 06:24+0000\n"
 "Last-Translator: \n"
 "Language-Team: Українська\n"
 "Language: uk\n"
@@ -43,6 +43,10 @@ msgstr "acq_id:  "
 msgid "agent_commission:  "
 msgstr "agent_commission:  "
 
+#: includes/class-morkva-liqpay-orders.php:90
+msgid "All our plugins are cross-compatible"
+msgstr "Всі наші плагіни сумісні між собою"
+
 #: includes/class-morkva-liqpay-orders.php:82
 msgid "and more"
 msgstr "та більше..."
@@ -63,11 +67,11 @@ msgstr "authcode_debit:  "
 msgid "Buy Pro-version"
 msgstr "Купити Pro-версію"
 
-#: includes/class-morkva-liqpay-orders.php:209
+#: includes/class-morkva-liqpay-orders.php:221
 msgid "Cancel"
 msgstr "Скасувати"
 
-#: includes/class-morkva-liqpay-orders.php:207
+#: includes/class-morkva-liqpay-orders.php:219
 msgid "Cancel hold"
 msgstr "Скасувати холд"
 
@@ -144,7 +148,7 @@ msgstr "Увімкнути morkva Liqpay холдування"
 msgid "Enable/disable"
 msgstr "Увімкнути/вимкнути"
 
-#: includes/class-morkva-liqpay-orders.php:208
+#: includes/class-morkva-liqpay-orders.php:220
 msgid "Enter amount"
 msgstr "Внесіть суму"
 
@@ -164,7 +168,7 @@ msgstr "Введіть Terminal ID"
 msgid "Error during payment"
 msgstr "Помилка під час оплати"
 
-#: includes/class-morkva-liqpay-orders.php:206
+#: includes/class-morkva-liqpay-orders.php:218
 msgid "Finalize"
 msgstr "Фіналізувати"
 
@@ -184,19 +188,19 @@ msgstr "Перейти на сайт"
 msgid "Hide logo"
 msgstr "Приховати логотип"
 
-#: includes/class-morkva-liqpay-orders.php:288
+#: includes/class-morkva-liqpay-orders.php:300
 msgid "Hold canceled"
 msgstr "Холд скасовано"
 
-#: includes/class-morkva-liqpay-orders.php:327
+#: includes/class-morkva-liqpay-orders.php:339
 msgid "Hold finalized"
 msgstr "Холд фіналізовано"
 
-#: includes/class-morkva-liqpay-orders.php:255
+#: includes/class-morkva-liqpay-orders.php:267
 msgid "Hold is not applied to the order."
 msgstr "Холдування не використано у замовлені"
 
-#: includes/class-morkva-liqpay-orders.php:249
+#: includes/class-morkva-liqpay-orders.php:261
 msgid "Holding period is 30 days"
 msgstr "Термін холду 30 днів"
 
@@ -236,7 +240,7 @@ msgstr "Залишити"
 msgid "Like this plugin?"
 msgstr "Корисний плагін?"
 
-#: includes/class-morkva-liqpay-orders.php:172
+#: includes/class-morkva-liqpay-orders.php:184
 msgid "Liqpay Hold"
 msgstr "Liqpay Холд"
 

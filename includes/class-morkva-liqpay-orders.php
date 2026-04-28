@@ -87,6 +87,7 @@ if (!class_exists('MRKV_LIQPAY_ORDERS'))
 					</div>
 					<div class="morkva-settings-sidebar_inner" style="background: #fff; padding: 20px; border: 1px solid #ccd0d4; border-radius: 4px;margin-bottom:15px;">
 						<h3 style="margin-top: 0;"><?php echo __( 'Other free plugins', 'mrkv-liqpay-extended' ); ?></h3>
+						<p><?php echo __( 'All our plugins are cross-compatible', 'mrkv-liqpay-extended' ); ?></p>
 						<?php
 							$response = wp_remote_get( 'https://morkva.co.ua/wp-json/pluginManagement/v2', array(
 								'headers' => array(
@@ -109,7 +110,18 @@ if (!class_exists('MRKV_LIQPAY_ORDERS'))
 											{
 												if($plugin_slug == 'mrkv-liqpay-extended'){ continue; }
 												?>
-													<li><a style="display:block; margin-bottom:5px;" href="<?php echo $plugin_data['url'] ?? ''; ?>" target="blanc" class="plugin_line"><?php echo $plugin_data['label'] ?? ''; ?></a></li>
+													<li>
+														<a style="margin-bottom:5px;" href="<?php echo $plugin_data['url'] ?? ''; ?>?utm_source=plugin&utm_medium=sidebar&utm_campaign=liqpay_free" target="blanc" class="plugin_line"><?php echo $plugin_data['label'] ?? ''; ?></a>
+														<span>- 
+														<?php 
+															$current_desc = (strpos(get_user_locale(), 'uk') === 0) 
+																? ($plugin_data['description'] ?? '') 
+																: ($plugin_data['description_en'] ?? '');
+																
+															echo $current_desc; 
+														?>
+														</span>
+													</li>
 												<?php
 											}
 										?>
