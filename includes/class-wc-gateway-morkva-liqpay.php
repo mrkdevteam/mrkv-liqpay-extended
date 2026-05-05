@@ -74,7 +74,8 @@ class WC_Gateway_Morkva_Liqpay extends WC_Payment_Gateway
         }
 
         # Add payment image
-        add_filter( 'woocommerce_gateway_icon', array( $this, 'morkva_liqpay_gateway_icon' ), 100, 2 ); 
+        add_filter( 'woocommerce_gateway_icon', array( $this, 'morkva_liqpay_gateway_icon' ), 100, 2 );
+        add_filter('woocommerce_available_payment_gateways', array($this, 'mrkv_filter_gateway_by_admin_test_mode'), 10, 1);
     }
 
     /**
@@ -757,5 +758,28 @@ class WC_Gateway_Morkva_Liqpay extends WC_Payment_Gateway
             # Stop Wordpress job
             wp_die('IPN Request Failure');
         }
-    }   
+    }
+
+    /**
+     * Hide payment method if "Test mode for administrator" is enabled and user is not an admin.
+     * 
+     * @param array $available_gateways
+     * @return array
+     */
+    public function mrkv_filter_gateway_by_admin_test_mode($available_gateways)
+    {
+        if (is_admin() || !isset($available_gateways[$this->id])) {
+            return $available_gateways;
+        }
+
+        $test_admin_only = $this->get_option('test_enabled_admin');
+
+        if ($test_admin_only === 'yes') {
+            if (!current_user_can('manage_options') && !current_user_can('administrator')) {
+                unset($available_gateways[$this->id]);
+            }
+        }
+
+        return $available_gateways;
+    }
 }
