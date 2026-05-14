@@ -161,6 +161,14 @@ class WC_Gateway_Morkva_Liqpay extends WC_Payment_Gateway
                 'default' => '',
                 'desc_tip' => false,
             ),
+            'payment_description_template' => array(
+                'title'       => __( 'Payment destination', 'mrkv-liqpay-extended' ),
+                'type'        => 'text',
+                'description' => __( 'Template for the "description" field sent to LiqPay (shown to customer as payment purpose). Available shortcodes: {order_id}, {billing_first_name}, {billing_last_name}. Leave empty to keep default behavior.', 'mrkv-liqpay-extended' ) . '<br>' . __( 'Shortcodes:', 'mrkv-liqpay-extended' ) . '<br>' . __( '{billing_first_name} - The buyer\'s name as listed in the order\'s payment details,', 'mrkv-liqpay-extended' ) . '<br>' . __( '{billing_last_name} - the buyer\'s last name as listed in the order\'s billing information,', 'mrkv-liqpay-extended' ) . '<br>' . __( '{order_id} - Order ID.', 'mrkv-liqpay-extended' ),
+                'placeholder' => __( 'Оплата за замовлення №{order_id} від {billing_last_name} {billing_first_name}', 'mrkv-liqpay-extended' ),
+                'default'     => '',
+                'desc_tip'    => false,
+            ),
             'public_key' => array(
                 'title' => __('API public_key', 'mrkv-liqpay-extended'),
                 'type' => 'text',
@@ -186,8 +194,8 @@ class WC_Gateway_Morkva_Liqpay extends WC_Payment_Gateway
                 'default' => 'processing',
             ),
             'use_holds' => array(
-                'title' => __('Enable holds', 'mrkv-liqpay-extended'),
-                'label' => '<span>' . __( 'Enable morkva Liqpay Holds', 'mrkv-liqpay-extended' )  . '</span>',
+                'title' => __('Holds', 'mrkv-liqpay-extended'),
+                'label' => '<span>' . __( 'Enable', 'mrkv-liqpay-extended' )  . '</span>',
                 'type' => 'checkbox',
                 'default' => 'no',
                 'description' => __( 'The payment is held for 30 days. After this period, the payment is automatically finalized. You can finalize it manually from the order page, or it will be finalized automatically when the status changes.', 'mrkv-liqpay-extended' ),
@@ -385,11 +393,22 @@ class WC_Gateway_Morkva_Liqpay extends WC_Payment_Gateway
      */
     private function getDescription($order_id)
     {
-        # Create description
-        $description = __('Payment for order № ', 'mrkv-liqpay-extended') . $order_id;
-
-        # Return description
-        return $description;
+        $default = __( 'Payment for order № ', 'mrkv-liqpay-extended' ) . $order_id;
+        $template = (string) $this->get_option( 'payment_description_template', '' );
+        $template = trim( $template );
+        if ( $template === '' ) {
+            return $default;
+        }
+        $order = wc_get_order( $order_id );
+        if ( ! $order ) {
+            return $default;
+        }
+        $replacements = array(
+            '{order_id}'           => (string) $order->get_id(),
+            '{billing_first_name}' => (string) $order->get_billing_first_name(),
+            '{billing_last_name}'  => (string) $order->get_billing_last_name(),
+        );
+        return strtr( $template, $replacements );
     }
 
     /**
