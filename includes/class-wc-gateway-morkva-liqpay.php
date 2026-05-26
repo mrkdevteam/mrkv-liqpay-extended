@@ -105,14 +105,14 @@ class WC_Gateway_Morkva_Liqpay extends WC_Payment_Gateway
             <div class="morkva-settings-main" style="flex: 3;">
                 <h2 class="wc-admin-header">
                     <small>
-                        <a href="<?php echo esc_url( $back_link ); ?>" aria-label="<?php esc_attr_e( 'Return to payments', 'woocommerce' ); ?>">
+                        <a href="<?php echo esc_url( $back_link ); ?>" aria-label="<?php esc_attr_e( 'Return to payments', 'mrkv-liqpay-extended' ); ?>">
                             <span class="dashicons dashicons-arrow-left-alt2" aria-hidden="true"></span>
                         </a>
                     </small>
                     <?php echo esc_html( $this->method_title ); ?>
                 </h2>
 
-                <?php echo wpautop( $this->method_description ); ?>
+                <?php echo wp_kses_post( wpautop( $this->method_description ) ); ?>
                 
                 <table class="form-table">
                     <?php $this->generate_settings_html(); ?>
@@ -584,7 +584,7 @@ class WC_Gateway_Morkva_Liqpay extends WC_Payment_Gateway
         # Get Woo global data
         global $woocommerce;
 
-        # Check data response 
+        // phpcs:disable WordPress.Security.NonceVerification.Missing 
         $success = isset($_POST['data']) && isset($_POST['signature']);
 
         # If payment success
@@ -593,13 +593,15 @@ class WC_Gateway_Morkva_Liqpay extends WC_Payment_Gateway
             $data = '';
             $received_signature = '';
 
-            # Get response data
+            // phpcs:disable WordPress.Security.NonceVerification.Missing 
             if(isset($_POST['data'])){
-                $data = sanitize_text_field($_POST['data']);
+                // phpcs:disable WordPress.Security.NonceVerification.Missing 
+                $data = sanitize_text_field(wp_unslash($_POST['data']));
             }
-            # Get response signature
+            // phpcs:disable WordPress.Security.NonceVerification.Missing 
             if(isset($_POST['signature'])){
-                $received_signature = sanitize_text_field($_POST['signature']); 
+                // phpcs:disable WordPress.Security.NonceVerification.Missing 
+                $received_signature = sanitize_text_field(wp_unslash($_POST['signature'])); 
             }
 
             # Parse JSON data
