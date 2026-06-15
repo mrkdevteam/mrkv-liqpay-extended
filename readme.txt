@@ -3,7 +3,7 @@ Contributors: bandido, dpmine
 Plugin Name: morkva Liqpay Extended
 Tags: LiqPay, Ликпей, Лікпей
 Tested up to: 7.0
-Stable tag: 1.0.1
+Stable tag: 1.0.2
 WC tested up to: 9.8.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -33,6 +33,10 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 
 Потрібна підтримка чи додатковий функціонал? support@morkva.co.ua
+
+= 1.0.2 =
+* [new] додали збереження логу запитів та callback від LiqPay
+* [new] додали скасування холду при зміні статусу
 
 = 1.0.1 =
 * WP 7.0 - сумісний

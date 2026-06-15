@@ -200,6 +200,14 @@ class WC_Gateway_Morkva_Liqpay extends WC_Payment_Gateway
                 'default' => 'no',
                 'description' => __( 'The payment is held for 30 days. After this period, the payment is automatically finalized. You can finalize it manually from the order page, or it will be finalized automatically when the status changes.', 'mrkv-liqpay-extended' ),
             ),
+            'hold_cancel_status' => array(
+                'title' => __( 'Automatic cancellation of holding when the order status changes', 'mrkv-liqpay-extended' ),
+                'type' => 'select',
+                'description' => '<br>',
+                'label' => '',
+                'options' => $correct_order_statuses,
+                'default' => 'cancelled',
+            ),
             'title_method_image' => array(
                 'title' => __( 'Image Settings', 'mrkv-liqpay-extended' ),
                 'type' => 'title',
@@ -295,14 +303,7 @@ class WC_Gateway_Morkva_Liqpay extends WC_Payment_Gateway
                 'default' => '',
                 'desc_tip' => true,
                 'placeholder' => '',
-            ),
-            'enabled_debug_mode' => array(
-                'title'       => __( 'Debug mode', 'mrkv-liqpay-extended' ),
-                'type'        => 'checkbox',
-                'label'       => '<span>' . __( 'Enable Debug mode', 'mrkv-liqpay-extended' ) . '</span>',
-                'default'     => 'no',
-                'description' => '<a href="' . admin_url( 'admin.php?page=wc-status&tab=logs' ) . '">' . __( 'Show Log files', 'mrkv-liqpay-extended' ) . '</a>',
-            ),
+            )
         );
     }
 
@@ -470,20 +471,18 @@ class WC_Gateway_Morkva_Liqpay extends WC_Payment_Gateway
 
         # Create result link
         $url = $morkva_liqPay->cnb_link($arrayData);
+        
+        $logger = wc_get_logger();
+        $context = array( 'source' => 'mrkv-liqpay-extended' );
 
-        if($this->get_option( 'enabled_debug_mode' ))
-        {
-            $logger = wc_get_logger();
-            $context = array( 'source' => 'mrkv-liqpay-extended' );
+        $log_message = "--- Liqpay Request ---\n";
+        $log_message .= "Body: " . wp_json_encode($arrayData, JSON_UNESCAPED_UNICODE) . "\n";
+        
+        $log_message .= "Answer: " . wp_json_encode($url, JSON_UNESCAPED_UNICODE) . "\n";
+        $log_message .= "------------------------";
 
-            $log_message = "--- Liqpay Request ---\n";
-            $log_message .= "Body: " . wp_json_encode($arrayData, JSON_UNESCAPED_UNICODE) . "\n";
-            
-            $log_message .= "Answer: " . wp_json_encode($url, JSON_UNESCAPED_UNICODE) . "\n";
-            $log_message .= "------------------------";
-
-            $logger->debug( $log_message, $context );
-        }
+        $logger->debug( $log_message, $context );
+        
 
         # Return result 
         return array( 
@@ -586,6 +585,16 @@ class WC_Gateway_Morkva_Liqpay extends WC_Payment_Gateway
 
         // phpcs:disable WordPress.Security.NonceVerification.Missing 
         $success = isset($_POST['data']) && isset($_POST['signature']);
+        
+        $logger = wc_get_logger();
+        $context = array( 'source' => 'mrkv-liqpay-extended' );
+
+        $log_message = "--- Liqpay Callback ---\n";
+        $log_message .= "Body: " . wp_json_encode($_POST, JSON_UNESCAPED_UNICODE) . "\n";
+        $log_message .= "------------------------";
+
+        $logger->debug( $log_message, $context );
+        
 
         # If payment success
         if ($success) 
@@ -802,5 +811,37 @@ class WC_Gateway_Morkva_Liqpay extends WC_Payment_Gateway
         }
 
         return $available_gateways;
+    }
+
+    /**
+     * Return hold status cancel
+     * @return string hold status cancel
+     * */
+    public function get_mrkv_liqpay_hold_cancel_status()
+    {
+        if($this->get_option( 'hold_cancel_status' ))
+        {
+            return $this->get_option( 'hold_cancel_status' );
+        }
+        else
+        {
+            return '';
+        }
+    }
+
+    /**
+     * Return hold enabled
+     * @return string hold enabled
+     * */
+    public function get_mrkv_liqpay_hold_enabled()
+    {
+        if($this->get_option( 'use_holds' ) && $this->get_option( 'use_holds' ) == 'yes')
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 }

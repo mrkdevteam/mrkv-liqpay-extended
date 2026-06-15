@@ -26,6 +26,72 @@ if (!class_exists('MRKV_LIQPAY_ORDERS'))
 			add_action( 'wp_ajax_nopriv_mrkv_liqpay_final_payment_hold', array( $this, 'mrkv_liqpay_final_payment_hold_func' ) );
 
 			add_action('mrkv_liqpay_settings_sidebar', [$this, 'mrkv_liqpay_settings_sidebar_func']);
+			add_action('woocommerce_order_status_changed', [$this, 'mrkv_liqpay_finalize_hold'], 10, 4);
+			add_action( 'init', [$this, 'mrkv_liqpay_schedule_log_cleanup'] );
+			add_action( 'mrkv_liqpay_delete_old_logs_event', [$this, 'mrkv_liqpay_clean_logs'] );
+		}
+
+		public function mrkv_liqpay_schedule_log_cleanup() {
+			if ( ! wp_next_scheduled( 'mrkv_liqpay_delete_old_logs_event' ) ) {
+				wp_schedule_event( time(), 'twicedaily', 'mrkv_liqpay_delete_old_logs_event' );
+			}
+		}
+
+		public function mrkv_liqpay_clean_logs() {
+			$handler = new WC_Log_Handler_File();
+			$source  = 'mrkv-liqpay-extended';
+			$log_path = $handler->get_log_file_path( $source );
+
+			if ( file_exists( $log_path ) ) {
+				file_put_contents( $log_path, '' );
+			}
+		}
+
+		public function mrkv_liqpay_finalize_hold($order_id, $old_status, $new_status, $order)
+		{
+            $payment_method = $order->get_payment_method();
+
+            if('morkva-liqpay' == $payment_method)
+            {
+				$wc_gateways      = WC()->payment_gateways();
+	    		$payment_gateways = $wc_gateways->get_available_payment_gateways();
+
+	    		if ( !isset( $payment_gateways['morkva-liqpay'] ) ) {
+	    			return;
+	    		}
+
+	    		$liqpay_payment_gateway = $payment_gateways['morkva-liqpay'];
+
+	    		if($liqpay_payment_gateway && $liqpay_payment_gateway->get_mrkv_liqpay_hold_enabled())
+	    		{
+					$hold_cancel_status = $liqpay_payment_gateway->get_mrkv_liqpay_hold_cancel_status();
+					$is_cancelled_hold = false;
+
+	    			if($status_hold)
+	    			{
+	    				if ($new_status == $status_hold) 
+	    				{
+					        $is_cancelled_hold = true;
+					    }
+	    			}
+	    			elseif($new_status == 'cancelled')
+	    			{
+	    				$is_cancelled_hold = true;
+	    			}
+
+	    			if($is_cancelled_hold)
+	    			{
+						require_once(__DIR__ . '/classes/MorkvaLiqPay.php');
+						$mrkv_liqpay_token = $liqpay_payment_gateway->get_keys_access();
+
+						$mrkv_liqpay_payment = new MorkvaLiqPay($mrkv_liqpay_token['public_key'], $mrkv_liqpay_token['private_key']);
+
+						$mrkv_liqpay_payment->mrkv_liqpay_hold_cancel($order_id, $order->get_total());
+
+						$order->add_order_note(__('Hold canceled', 'mrkv-liqpay-extended'));
+					}
+				}
+			}
 		}
 
 		public function mrkv_liqpay_settings_sidebar_func()
